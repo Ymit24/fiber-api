@@ -2,7 +2,6 @@ package routes
 
 import (
 	"errors"
-	"log"
 
 	"github.com/Ymit24/fiber-api/database"
 	"github.com/Ymit24/fiber-api/models"
@@ -24,17 +23,14 @@ func createUserDTO(u models.User) UserDTO {
 }
 
 func CreateUser(c *fiber.Ctx) error {
-	log.Println("[CreateUser] Creating user.")
 	var user models.User
 
 	if err := c.BodyParser(&user); err != nil {
-		log.Println("[CreateUser] Failed to parse user")
 		return c.Status(400).JSON(err.Error())
 	}
 
 	database.Database.Db.Create(&user)
 	userDto := createUserDTO(user)
-	log.Println("[CreateUser] Successfully created user.")
 	return c.Status(200).JSON(userDto)
 }
 

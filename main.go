@@ -35,6 +35,9 @@ func setupRoutes(app *fiber.App) {
 	orders := api.Group("/orders")
 	orders.Post("/", routes.CreateOrder)
 	orders.Delete("/:id", routes.DeleteOrder)
+
+	auth := api.Group("/auth")
+	auth.Post("/login", routes.Login)
 }
 
 func main() {
