@@ -6,6 +6,7 @@ import (
 	"github.com/Ymit24/fiber-api/database"
 	"github.com/Ymit24/fiber-api/routes"
 	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 )
 
 func welcome(c *fiber.Ctx) error {
@@ -38,6 +39,11 @@ func setupRoutes(app *fiber.App) {
 
 func main() {
 	app := fiber.New()
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Failed to load .env file.")
+	}
 
 	database.ConnectDb()
 

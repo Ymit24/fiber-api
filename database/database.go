@@ -18,7 +18,12 @@ type DbInstance struct {
 var Database DbInstance
 
 func ConnectDb() {
-	dsn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%d sslmode=disable", host, user, pwd, dbname, port)
+	dbname := os.Getenv("DBNAME")
+	host := os.Getenv("DBHOST")
+	pwd := os.Getenv("DBPWD")
+	port := os.Getenv("DBPORT")
+	user := os.Getenv("DBUSER")
+	dsn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=disable", host, user, pwd, dbname, port)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
