@@ -9,16 +9,15 @@ import (
 )
 
 type UserDTO struct {
-	ID        uint   `json:"id"`
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
+	ID       uint   `json:"id"`
+	Email    string `json:"email"`
+	Username string `json:"username"`
 }
 
 func createUserDTO(u models.User) UserDTO {
 	return UserDTO{
-		ID:        u.ID,
-		FirstName: u.FirstName,
-		LastName:  u.LastName,
+		ID:       u.ID,
+		Username: u.Username,
 	}
 }
 
@@ -88,8 +87,7 @@ func UpdateUser(c *fiber.Ctx) error {
 	}
 
 	type UpdateUser struct {
-		FirstName string `json:"first_name"`
-		LastName  string `json:"last_name"`
+		Username string `json:"username"`
 	}
 
 	var updateUser UpdateUser
@@ -98,8 +96,7 @@ func UpdateUser(c *fiber.Ctx) error {
 		return c.Status(400).JSON(err.Error())
 	}
 
-	user.FirstName = updateUser.FirstName
-	user.LastName = updateUser.LastName
+	user.Username = updateUser.Username
 
 	database.Database.Db.Save(&user)
 
