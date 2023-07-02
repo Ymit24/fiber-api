@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/Ymit24/fiber-api/database"
+	"github.com/Ymit24/fiber-api/middleware"
 	"github.com/Ymit24/fiber-api/routes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
@@ -20,6 +21,7 @@ func setupRoutes(app *fiber.App) {
 	users := api.Group("/users")
 	users.Post("/", routes.CreateUser)
 	users.Get("/", routes.GetUsers)
+	users.Get("/secret", middleware.Protected(), routes.GetUsers)
 	users.Get("/:id", routes.GetUser)
 	users.Put("/:id", routes.UpdateUser)
 	users.Delete("/:id", routes.DeleteUser)

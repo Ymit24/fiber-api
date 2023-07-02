@@ -1,28 +1,12 @@
 package routes
 
 import (
-	"io/ioutil"
-	"log"
 	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 )
-
-func getJwtKey() ([]byte, []byte) {
-	prvKey, err := ioutil.ReadFile("secrets/id_rsa")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	pubKey, err := ioutil.ReadFile("secrets/id_rsa.pub")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	return prvKey, pubKey
-}
 
 func Login(c *fiber.Ctx) error {
 	type LoginRequest struct {
@@ -48,7 +32,7 @@ func Login(c *fiber.Ctx) error {
 	claims := token.Claims.(jwt.MapClaims)
 
 	claims["sub"] = "1"
-	claims["exp"] = time.Now().Add(time.Hour * 24 * 7) // 1 week
+	claims["exp"] = time.Now().Add(time.Hour * 24 * 7).Unix() // 1 week
 
 	JwtToken := os.Getenv("JWTSECRET")
 
