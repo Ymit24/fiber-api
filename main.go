@@ -7,6 +7,7 @@ import (
 	"github.com/Ymit24/fiber-api/middleware"
 	"github.com/Ymit24/fiber-api/routes"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 )
 
@@ -45,6 +46,8 @@ func setupRoutes(app *fiber.App) {
 
 func main() {
 	app := fiber.New()
+
+	app.Use(cors.New())
 
 	err := godotenv.Load()
 	if err != nil {
