@@ -76,7 +76,19 @@ func Register(c *fiber.Ctx) error {
 
 	database.Database.Db.Create(&user)
 
-	return c.Status(fiber.StatusOK).SendString("ok")
+	s, err := makeJwt()
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(err.Error())
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"token": s,
+		"user": UserDTO{
+			ID:       user.ID,
+			Username: user.Username,
+			Email:    user.Email,
+		},
+	})
 }
 
 func makeJwt() (string, error) {
